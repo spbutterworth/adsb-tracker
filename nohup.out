@@ -1,0 +1,299 @@
+ADS-B Data Collector starting...
+Downloading aircraft database from http://downloads.adsbexchange.com/downloads/basic-ac-db.json.gz...
+Parsing as JSONL format...
+Successfully parsed JSONL aircraft database
+Traceback (most recent call last):
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector.py", line 348, in <module>
+    main()
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector.py", line 282, in main
+    load_aircraft_database()
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector.py", line 101, in load_aircraft_database
+    'registration': info.get('r', ''),  # registration
+                    ^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+================================================================================
+ADS-B Data Collector v2.4.3 starting...
+Platform: Darwin
+Auto-restart: After 5,000 messages
+File error restart delay: 300 seconds
+Socket timeout: 300 seconds
+TCP keepalive: 60 seconds
+Flight timeout: 60 minutes
+Cleanup interval: 600 seconds
+Pi reboot: Daily at 21:00 UTC (5 min window, 30s retry)
+================================================================================
+Trying ADS-B Exchange (HTTPS): https://downloads.adsbexchange.com/downloads/basic-ac-db.json.gz
+Successfully downloaded 615656 aircraft from ADS-B Exchange (HTTPS)
+Loaded 615656 aircraft records from database
+Sample aircraft data - ICAO: AC738E, Data: {'registration': 'N901GW', 'aircraft_type': '', 'manufacturer': None, 'model': None, 'ownop': 'GILBERT WRIGHT'}
+Saved aircraft database to basic-ac-db.json for backup
+Connecting to 192.168.10.139:30003
+Connected to Oracle Database: localhost:1521/FREEPDB1
+Session timezone set to America/Chicago (Central Time)
+Loaded 116 airline prefixes
+Loaded 0 active alert rules
+Loaded 200 airport codes for route detection
+RouteDetector v2.2 loaded
+  Validating FR24 API key (01998c...32c1, length=85)...
+  ⚠  HTTP 403 from static/airlines/light returned an HTML page (maintenance/WAF) - not a key error, trying next endpoint...
+  ⚠  HTTP 403 from live/flight-positions/full returned an HTML page (maintenance/WAF) - not a key error, trying next endpoint...
+  ⚠  FR24 API validation inconclusive (last: HTTP 403 from live/flight-positions/full returned an HTML page (maintenance/WAF) - not a key error, trying next endpoint...)
+     Key NOT disabled - live lookups will still attempt the API
+     If the issue persists, check https://fr24api.flightradar24.com/status
+Route detector initialized
+Running initial flight cleanup...
+macOS TCP keepalive enabled: 60s interval
+Socket timeout set to 300 seconds
+Connected to ADS-B feed at 192.168.10.139:30003 (attempt #1)
+Adding new aircraft A0191E: Reg=N105UW, Type=A320, Op=WELLS FARGO TRUST CO NA TRUSTEE
+Adding new aircraft A65B76: Reg=N509AY, Type=A321, Op=AMERICAN AIRLINES INC
+Adding new aircraft A9739C: Reg=N708PS, Type=CRJ7, Op=AMERICAN AIRLINES INC
+Adding new aircraft AB237D: No registration/type data found in database
+Adding new aircraft AB2496: Reg=N817NN, Type=B738, Op=AMERICAN AIRLINES INC
+Adding new aircraft A651F8: Reg=N506TW, Type=FA50, Op=TITAN INTERNATIONAL INC
+Adding new aircraft AC5746: Reg=N8945Q, Type=, Op=SOUTHWEST AIRLINES CO
+Adding new aircraft AA7F02: Reg=N77572, Type=, Op=UNITED AIRLINES INC
+Adding new aircraft A90375: Reg=N680CM, Type=C680, Op=MEWBOURNE OIL COMPANY, 3MG CORP, 9MGC MANAGEMENT LLC
+Adding new aircraft ACBFCF: Reg=N920SW, Type=CRJ2, Op=CORPORATE FLIGHT MANAGEMENT INC DBA, CONTOUR AVIATION
+New callsign detected: SWA3910 (ICAO: A620F5)
+Adding new aircraft A83787: Reg=N62889, Type=B739, Op=UNITED AIRLINES INC
+New callsign detected: AAL3262 (ICAO: AC90A8)
+
+
+Shutting down...
+
+Cleaning up resources...
+  ✓ Database committed
+  ✓ Cursor closed
+  ✓ Database connection closed
+Traceback (most recent call last):
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 920, in main
+    store_position(cursor, parsed)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 747, in store_position
+    flight_id = get_or_create_flight(cursor, data['icao_address'], data['callsign'])
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 617, in get_or_create_flight
+    cursor.execute(
+    ~~~~~~~~~~~~~~^
+        "UPDATE flights SET last_contact = CURRENT_TIMESTAMP WHERE flight_id = :fid",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        fid=flight_id
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/venv/lib/python3.14/site-packages/oracledb/cursor.py", line 844, in execute
+    impl.execute(self)
+    ~~~~~~~~~~~~^^^^^^
+  File "src/oracledb/impl/thin/cursor.pyx", line 277, in oracledb.thin_impl.ThinCursorImpl.execute
+  File "src/oracledb/impl/thin/protocol.pyx", line 501, in oracledb.thin_impl.Protocol._process_single_message
+  File "src/oracledb/impl/thin/protocol.pyx", line 502, in oracledb.thin_impl.Protocol._process_single_message
+  File "src/oracledb/impl/thin/protocol.pyx", line 494, in oracledb.thin_impl.Protocol._process_message
+  File "src/oracledb/impl/thin/messages/base.pyx", line 102, in oracledb.thin_impl.Message._check_and_raise_exception
+oracledb.exceptions.DatabaseError: ORA-00060: deadlock detected while waiting for resource
+Help: https://docs.oracle.com/error-help/db/ora-00060/
+/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py:164: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  now_utc = datetime.utcnow()
+Traceback (most recent call last):
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 920, in main
+    store_position(cursor, parsed)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 747, in store_position
+    flight_id = get_or_create_flight(cursor, data['icao_address'], data['callsign'])
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 617, in get_or_create_flight
+    cursor.execute(
+    ~~~~~~~~~~~~~~^
+        "UPDATE flights SET last_contact = CURRENT_TIMESTAMP WHERE flight_id = :fid",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        fid=flight_id
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/venv/lib/python3.14/site-packages/oracledb/cursor.py", line 844, in execute
+    impl.execute(self)
+    ~~~~~~~~~~~~^^^^^^
+  File "src/oracledb/impl/thin/cursor.pyx", line 277, in oracledb.thin_impl.ThinCursorImpl.execute
+  File "src/oracledb/impl/thin/protocol.pyx", line 501, in oracledb.thin_impl.Protocol._process_single_message
+  File "src/oracledb/impl/thin/protocol.pyx", line 502, in oracledb.thin_impl.Protocol._process_single_message
+  File "src/oracledb/impl/thin/protocol.pyx", line 494, in oracledb.thin_impl.Protocol._process_message
+  File "src/oracledb/impl/thin/messages/base.pyx", line 102, in oracledb.thin_impl.Message._check_and_raise_exception
+oracledb.exceptions.DatabaseError: ORA-00060: deadlock detected while waiting for resource
+Help: https://docs.oracle.com/error-help/db/ora-00060/
+/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py:164: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  now_utc = datetime.utcnow()
+Traceback (most recent call last):
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 920, in main
+    store_position(cursor, parsed)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 747, in store_position
+    flight_id = get_or_create_flight(cursor, data['icao_address'], data['callsign'])
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 617, in get_or_create_flight
+    cursor.execute(
+    ~~~~~~~~~~~~~~^
+        "UPDATE flights SET last_contact = CURRENT_TIMESTAMP WHERE flight_id = :fid",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        fid=flight_id
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/venv/lib/python3.14/site-packages/oracledb/cursor.py", line 844, in execute
+    impl.execute(self)
+    ~~~~~~~~~~~~^^^^^^
+  File "src/oracledb/impl/thin/cursor.pyx", line 277, in oracledb.thin_impl.ThinCursorImpl.execute
+  File "src/oracledb/impl/thin/protocol.pyx", line 501, in oracledb.thin_impl.Protocol._process_single_message
+  File "src/oracledb/impl/thin/protocol.pyx", line 502, in oracledb.thin_impl.Protocol._process_single_message
+  File "src/oracledb/impl/thin/protocol.pyx", line 494, in oracledb.thin_impl.Protocol._process_message
+  File "src/oracledb/impl/thin/messages/base.pyx", line 102, in oracledb.thin_impl.Message._check_and_raise_exception
+oracledb.exceptions.DatabaseError: ORA-00060: deadlock detected while waiting for resource
+Help: https://docs.oracle.com/error-help/db/ora-00060/
+Traceback (most recent call last):
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 920, in main
+    store_position(cursor, parsed)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 747, in store_position
+    flight_id = get_or_create_flight(cursor, data['icao_address'], data['callsign'])
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 617, in get_or_create_flight
+    cursor.execute(
+    ~~~~~~~~~~~~~~^
+        "UPDATE flights SET last_contact = CURRENT_TIMESTAMP WHERE flight_id = :fid",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        fid=flight_id
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/venv/lib/python3.14/site-packages/oracledb/cursor.py", line 844, in execute
+    impl.execute(self)
+    ~~~~~~~~~~~~^^^^^^
+  File "src/oracledb/impl/thin/cursor.pyx", line 277, in oracledb.thin_impl.ThinCursorImpl.execute
+  File "src/oracledb/impl/thin/protocol.pyx", line 501, in oracledb.thin_impl.Protocol._process_single_message
+  File "src/oracledb/impl/thin/protocol.pyx", line 502, in oracledb.thin_impl.Protocol._process_single_message
+  File "src/oracledb/impl/thin/protocol.pyx", line 494, in oracledb.thin_impl.Protocol._process_message
+  File "src/oracledb/impl/thin/messages/base.pyx", line 102, in oracledb.thin_impl.Message._check_and_raise_exception
+oracledb.exceptions.DatabaseError: ORA-00060: deadlock detected while waiting for resource
+Help: https://docs.oracle.com/error-help/db/ora-00060/
+Traceback (most recent call last):
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 920, in main
+    store_position(cursor, parsed)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 747, in store_position
+    flight_id = get_or_create_flight(cursor, data['icao_address'], data['callsign'])
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/adsb_collector_latest.py", line 617, in get_or_create_flight
+    cursor.execute(
+    ~~~~~~~~~~~~~~^
+        "UPDATE flights SET last_contact = CURRENT_TIMESTAMP WHERE flight_id = :fid",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        fid=flight_id
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/venv/lib/python3.14/site-packages/oracledb/cursor.py", line 844, in execute
+    impl.execute(self)
+    ~~~~~~~~~~~~^^^^^^
+  File "src/oracledb/impl/thin/cursor.pyx", line 277, in oracledb.thin_impl.ThinCursorImpl.execute
+  File "src/oracledb/impl/thin/protocol.pyx", line 501, in oracledb.thin_impl.Protocol._process_single_message
+  File "src/oracledb/impl/thin/protocol.pyx", line 502, in oracledb.thin_impl.Protocol._process_single_message
+  File "src/oracledb/impl/thin/protocol.pyx", line 494, in oracledb.thin_impl.Protocol._process_message
+  File "src/oracledb/impl/thin/messages/base.pyx", line 102, in oracledb.thin_impl.Message._check_and_raise_exception
+oracledb.exceptions.DatabaseError: ORA-00060: deadlock detected while waiting for resource
+Help: https://docs.oracle.com/error-help/db/ora-00060/
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x0000000202a52c40 (most recent call first):
+  <no Python frame>
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x0000000202a52c40 (most recent call first):
+  <no Python frame>
+Traceback (most recent call last):
+  File "src/oracledb/impl/thin/connection.pyx", line 421, in oracledb.thin_impl.ThinConnImpl._connect_with_address
+  File "src/oracledb/impl/thin/protocol.pyx", line 268, in oracledb.thin_impl.Protocol._connect_phase_one
+  File "src/oracledb/impl/thin/protocol.pyx", line 402, in oracledb.thin_impl.Protocol._connect_tcp
+  File "/opt/homebrew/Cellar/python@3.14/3.14.2_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 870, in create_connection
+    raise exceptions[0]
+  File "/opt/homebrew/Cellar/python@3.14/3.14.2_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 855, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/./adsb_collector_latest.py", line 1385, in main
+    db_conn = connect_to_database()
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/./adsb_collector_latest.py", line 961, in connect_to_database
+    connection = oracledb.connect(
+        user=DB_USER,
+        password=DB_PASSWORD,
+        dsn=DB_DSN
+    )
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/venv/lib/python3.14/site-packages/oracledb/connection.py", line 1768, in connect
+    return conn_class(dsn=dsn, pool=pool, params=params, **kwargs)
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/venv/lib/python3.14/site-packages/oracledb/connection.py", line 892, in __init__
+    impl.connect(params_impl)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "src/oracledb/impl/thin/connection.pyx", line 544, in oracledb.thin_impl.ThinConnImpl.connect
+  File "src/oracledb/impl/thin/connection.pyx", line 540, in oracledb.thin_impl.ThinConnImpl.connect
+  File "src/oracledb/impl/thin/connection.pyx", line 482, in oracledb.thin_impl.ThinConnImpl._connect_with_params
+  File "src/oracledb/impl/thin/connection.pyx", line 463, in oracledb.thin_impl.ThinConnImpl._connect_with_description
+  File "src/oracledb/impl/thin/connection.pyx", line 425, in oracledb.thin_impl.ThinConnImpl._connect_with_address
+  File "/Users/stephen/Library/Mobile Documents/com~apple~CloudDocs/Shared_With_The_Bunny/Python/ADS-B/venv/lib/python3.14/site-packages/oracledb/errors.py", line 199, in _raise_err
+    raise error.exc_type(error) from cause
+oracledb.exceptions.OperationalError: DPY-6005: cannot connect to database (CONNECTION_ID=C70DBJZLSm93z4ahBQ4NKQ==).
+timed out
+================================================================================
+ADS-B Data Collector v2.6.0 starting...
+Platform: Darwin
+================================================================================
+
+Configuration:
+  Auto-restart: After 50,000 messages
+  Socket timeout: 300 seconds
+  TCP keepalive: 60 seconds
+  Flight timeout: 60 minutes
+  Pi reboot: Daily at 21:00 UTC
+  FAA cache: /Users/stephen/.adsb_tracker/faa_cache
+
+Position Throttling:
+  Enabled: True
+  Min interval: 5s
+  Max interval: 60s
+  Distance threshold: 0.5 NM
+  Altitude threshold: 300 ft
+  Heading threshold: 15°
+  Speed threshold: 50 kt
+  Always store: squawk=True, ground=True, emergency=True
+================================================================================
+
+============================================================
+Loading FAA Aircraft Registry Database
+============================================================
+Using cached FAA data (6.4 hours old)
+Parsing aircraft reference file...
+  Loaded 93,863 aircraft type references
+Parsing master registration file...
+  Parsed 314,484 total records
+  Loaded 314,483 aircraft with Mode S hex codes
+
+Sample aircraft - ICAO: A004B3
+  Registration: N100
+  Type: PIPER J3C-65
+  Manufacturer: PIPER
+  Owner: BENE MARY D...
+
+Note: FAA database contains US-registered aircraft only (N-numbers)
+============================================================
+
+Connecting to 192.168.10.139:30003
+Database connection failed: DPY-6005: cannot connect to database (CONNECTION_ID=C70DBJZLSm93z4ahBQ4NKQ==).
+timed out
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+FATAL ERROR during initialization: DPY-6005: cannot connect to database (CONNECTION_ID=C70DBJZLSm93z4ahBQ4NKQ==).
+timed out
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+Cleaning up resources...
